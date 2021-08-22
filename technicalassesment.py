@@ -25,22 +25,20 @@ mycursor.execute("show tables")
 t = []
 for i in mycursor:
     res = str(i)[2:-3]
-try:
-    with open("patients.txt",'r') as f:
-        listl=[]
-        for line in f:
-            strip_lines=line.strip()
-            listli=strip_lines.split("|")
-            listli.pop()
-            if(listli[7].lower() in t):
-                mycursor.execute("INSERT INTO " + listli[7] + " VALUES %r;" % (tuple(listli),))
-            else:
-                t.append(listli[7].lower())
-                mycursor.execute("create table " + listli[7] + " like patients")
-                mycursor.execute("INSERT INTO " + listli[7] + " VALUES %r;" % (tuple(listli),))
-except e:
-    print(e)
-
+    
+with open("patients.txt",'r') as f:
+    listl=[]
+    for line in f:
+        strip_lines=line.strip()
+        listli=strip_lines.split("|")
+        listli.pop()
+        if(listli[7].lower() in t):
+            mycursor.execute("INSERT INTO " + listli[7] + " VALUES %r;" % (tuple(listli),))
+        else:
+            t.append(listli[7].lower())
+            mycursor.execute("create table " + listli[7] + " like patients")
+            mycursor.execute("INSERT INTO " + listli[7] + " VALUES %r;" % (tuple(listli),))
+            
 for i in t:
     mycursor.execute("select * from " + i)
     string1 = ""
