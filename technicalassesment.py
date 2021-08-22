@@ -33,8 +33,15 @@ with open("patients.txt",'r') as f:
         listli=strip_lines.split("|")
         listli.pop()
         if(listli[7].lower() in t):
+            print(listli[7])
+            print(t)
+            print("ok")
             mycursor.execute("INSERT INTO " + listli[7] + " VALUES %r;" % (tuple(listli),))
         else:
+            t.append(listli[7].lower())
+            print(listli[7])
+            print(t)
+            print("no")
             mycursor.execute("create table " + listli[7] + " like patients")
             mycursor.execute("INSERT INTO " + listli[7] + " VALUES %r;" % (tuple(listli),))
 
@@ -44,7 +51,8 @@ for i in t:
     for j in mycursor:
         for list in j:
             string1+=str(list) + "|"
-            string1+="\n"
+        string1+="\n"
+
     try:
         f= open(i + ".txt","w")
         f.write(string1)
